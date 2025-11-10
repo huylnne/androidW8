@@ -1,62 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:background="#FFFFFF">
+    tools:context=".MainActivity">
 
-    <!-- Dòng phép tính -->
-    <TextView
-        android:id="@+id/tvExpression"
+    <!-- Ô nhập số -->
+    <EditText
+        android:id="@+id/inputNumber"
+        android:hint="Nhập số nguyên"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Nhóm Radio chọn loại số -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:textSize="24sp"
-        android:textColor="#666666"
-        android:padding="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
-    <!-- Dòng kết quả -->
+        <RadioButton
+            android:id="@+id/odd"
+            android:text="Số lẻ"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/prime"
+            android:text="Số nguyên tố"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/perfect"
+            android:text="Số hoàn hảo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <RadioButton
+            android:id="@+id/even"
+            android:text="Số chẵn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/square"
+            android:text="Số chính phương"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/fibo"
+            android:text="Số Fibonacci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <!-- Text hiển thị khi không có số nào -->
     <TextView
-        android:id="@+id/tvDisplay"
+        android:id="@+id/tvMessage"
+        android:text="Không có số nào thỏa mãn"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="end|center_vertical"
-        android:text="0"
-        android:textSize="48sp"
-        android:textColor="#000000"
-        android:background="#E0E0E0"
-        android:padding="16dp" />
+        android:layout_height="wrap_content" />
 
-    <!-- Các nút -->
-    <GridLayout
+    <!-- Danh sách số -->
+    <ListView
+        android:id="@+id/listView"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:columnCount="4"
-        android:rowCount="5"
-        android:alignmentMode="alignMargins"
-        android:useDefaultMargins="true">
+        android:layout_height="match_parent" />
 
-        <Button style="@style/CalcButton" android:id="@+id/btnCE" android:text="CE" />
-        <Button style="@style/CalcButton" android:id="@+id/btnC" android:text="C" />
-        <Button style="@style/CalcButton" android:id="@+id/btnBS" android:text="BS" />
-        <Button style="@style/CalcButton" android:id="@+id/btnDiv" android:text="/" />
-        <Button style="@style/CalcButton" android:id="@+id/btn7" android:text="7" />
-        <Button style="@style/CalcButton" android:id="@+id/btn8" android:text="8" />
-        <Button style="@style/CalcButton" android:id="@+id/btn9" android:text="9" />
-        <Button style="@style/CalcButton" android:id="@+id/btnMul" android:text="x" />
-        <Button style="@style/CalcButton" android:id="@+id/btn4" android:text="4" />
-        <Button style="@style/CalcButton" android:id="@+id/btn5" android:text="5" />
-        <Button style="@style/CalcButton" android:id="@+id/btn6" android:text="6" />
-        <Button style="@style/CalcButton" android:id="@+id/btnSub" android:text="-" />
-        <Button style="@style/CalcButton" android:id="@+id/btn1" android:text="1" />
-        <Button style="@style/CalcButton" android:id="@+id/btn2" android:text="2" />
-        <Button style="@style/CalcButton" android:id="@+id/btn3" android:text="3" />
-        <Button style="@style/CalcButton" android:id="@+id/btnAdd" android:text="+" />
-        <Button style="@style/CalcButton" android:id="@+id/btnSign" android:text="+/-" />
-        <Button style="@style/CalcButton" android:id="@+id/btn0" android:text="0" />
-        <Button style="@style/CalcButton" android:id="@+id/btnDot" android:text="." />
-        <Button style="@style/CalcButton" android:id="@+id/btnEqual" android:text="=" />
-    </GridLayout>
 </LinearLayout>

@@ -1,90 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- Ô nhập số -->
     <EditText
-        android:id="@+id/inputNumber"
-        android:hint="Nhập số nguyên"
-        android:inputType="number"
+        android:id="@+id/edtMSSV"
+        android:hint="Mã số sinh viên"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
-    <!-- Nhóm Radio chọn loại số -->
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <EditText
+        android:id="@+id/edtHoTen"
+        android:hint="Họ tên"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-
-        <RadioButton
-            android:id="@+id/odd"
-            android:text="Số lẻ"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/prime"
-            android:text="Số nguyên tố"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/perfect"
-            android:text="Số hoàn hảo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
-
-        <RadioButton
-            android:id="@+id/even"
-            android:text="Số chẵn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/square"
-            android:text="Số chính phương"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/fibo"
-            android:text="Số Fibonacci"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
-
-    <!-- Text hiển thị khi không có số nào -->
-    <TextView
-        android:id="@+id/tvMessage"
-        android:text="Không có số nào thỏa mãn"
-        android:textStyle="italic"
         android:gravity="center"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:paddingTop="12dp">
 
-    <!-- Danh sách số -->
+        <Button
+            android:id="@+id/btnAdd"
+            android:text="Add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:text="Update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"/>
+    </LinearLayout>
+
     <ListView
-        android:id="@+id/listView"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
+        android:id="@+id/lvSinhVien"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

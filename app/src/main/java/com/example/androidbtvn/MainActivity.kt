@@ -1,101 +1,93 @@
 package com.example.androidbtvn
 
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.sqrt
+import android.os.Bundle
+import android.widget.*
+import com.example.androidbtvn.R
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var inputNumber: EditText
-    private lateinit var radioGroup: RadioGroup
+    private lateinit var edtMSSV: EditText
+    private lateinit var edtHoTen: EditText
+    private lateinit var btnAdd: Button
+    private lateinit var btnUpdate: Button
     private lateinit var listView: ListView
-    private lateinit var tvMessage: TextView
-    private lateinit var adapter: ArrayAdapter<Int>
-    private val numbers = mutableListOf<Int>()
+
+    private lateinit var adapter: ArrayAdapter<SinhVien>
+    private val dsSV = ArrayList<SinhVien>()
+
+    private var indexSelected = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        inputNumber = findViewById(R.id.inputNumber)
-        radioGroup = findViewById(R.id.radioGroup)
-        listView = findViewById(R.id.listView)
-        tvMessage = findViewById(R.id.tvMessage)
+        // Ánh xạ view — KHÔNG ĐƯỢC truyền id=
+        edtMSSV = findViewById(R.id.edtMSSV)
+        edtHoTen = findViewById(R.id.edtHoTen)
+        btnAdd = findViewById(R.id.btnAdd)
+        btnUpdate = findViewById(R.id.btnUpdate)
+        listView = findViewById(R.id.lvSinhVien)
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, numbers)
+        // Adapter
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, dsSV)
         listView.adapter = adapter
 
-        // Tự động cập nhật khi thay đổi giá trị hoặc lựa chọn
-        inputNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateList()
+        // ADD
+        btnAdd.setOnClickListener {
+            val mssv = edtMSSV.text.toString()
+            val hoten = edtHoTen.text.toString()
+
+            if (mssv.isEmpty() || hoten.isEmpty()) {
+                Toast.makeText(this, "Nhập đủ MSSV và họ tên", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            override fun afterTextChanged(s: Editable?) {}
-        })
 
-        radioGroup.setOnCheckedChangeListener { _, _ -> updateList() }
-    }
-
-    private fun updateList() {
-        numbers.clear()
-        val input = inputNumber.text.toString()
-        if (input.isEmpty()) {
+            dsSV.add(SinhVien(mssv, hoten))
             adapter.notifyDataSetChanged()
-            tvMessage.visibility = View.VISIBLE
-            tvMessage.text = "Không có số nào thỏa mãn"
-            return
+
+            edtMSSV.setText("")
+            edtHoTen.setText("")
         }
 
-        val n = input.toIntOrNull() ?: 0
-        for (i in 1 until n) {
-            if (checkNumber(i)) numbers.add(i)
+        // CLICK ITEM (hiển thị lại lên ô input)
+        listView.setOnItemClickListener { _, _, position, _ ->
+            indexSelected = position
+            val sv = dsSV[position]
+
+            edtMSSV.setText(sv.mssv)
+            edtHoTen.setText(sv.hoTen)
         }
 
-        adapter.notifyDataSetChanged()
-        tvMessage.visibility = if (numbers.isEmpty()) View.VISIBLE else View.GONE
-    }
-
-    private fun checkNumber(x: Int): Boolean {
-        return when (radioGroup.checkedRadioButtonId) {
-            R.id.odd -> x % 2 != 0
-            R.id.even -> x % 2 == 0
-            R.id.prime -> isPrime(x)
-            R.id.perfect -> isPerfect(x)
-            R.id.square -> sqrt(x.toDouble()) % 1 == 0.0
-            R.id.fibo -> isFibo(x)
-            else -> false
+        // LONG PRESS DELETE
+        listView.setOnItemLongClickListener { _, _, position, _ ->
+            dsSV.removeAt(position)
+            adapter.notifyDataSetChanged()
+            true
         }
-    }
 
-    private fun isPrime(n: Int): Boolean {
-        if (n < 2) return false
-        for (i in 2..sqrt(n.toDouble()).toInt()) {
-            if (n % i == 0) return false
-        }
-        return true
-    }
+        // UPDATE
+        btnUpdate.setOnClickListener {
+            if (indexSelected == -1) {
+                Toast.makeText(this, "Chọn sinh viên để update", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-    private fun isPerfect(n: Int): Boolean {
-        var sum = 0
-        for (i in 1 until n) {
-            if (n % i == 0) sum += i
-        }
-        return sum == n
-    }
+            val newMssv = edtMSSV.text.toString()
+            val newHoten = edtHoTen.text.toString()
 
-    private fun isFibo(n: Int): Boolean {
-        var a = 0
-        var b = 1
-        while (b < n) {
-            val c = a + b
-            a = b
-            b = c
+            if (newMssv.isEmpty() || newHoten.isEmpty()) {
+                Toast.makeText(this, "Dữ liệu không hợp lệ", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            dsSV[indexSelected].mssv = newMssv
+            dsSV[indexSelected].hoTen = newHoten
+            adapter.notifyDataSetChanged()
+
+            indexSelected = -1
+            edtMSSV.setText("")
+            edtHoTen.setText("")
         }
-        return b == n || n == 0
     }
 }
